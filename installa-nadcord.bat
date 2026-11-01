@@ -1,9 +1,9 @@
 @echo off
 chcp 65001 >nul
-title Installazione MaxCord
+title Installazione Nadcord
 cd /d "%~dp0"
 
-echo === MaxCord - installazione ===
+echo === Nadcord - installazione ===
 echo.
 
 where node >nul 2>nul
@@ -31,7 +31,7 @@ echo [1/3] Installo le dipendenze...
 call pnpm install --frozen-lockfile
 if errorlevel 1 goto errore
 
-echo [2/3] Compilo MaxCord...
+echo [2/3] Compilo Nadcord...
 call pnpm build
 if errorlevel 1 goto errore
 
@@ -40,7 +40,7 @@ call pnpm inject
 if errorlevel 1 goto errore
 
 echo.
-echo Fatto! Riapri Discord e cerca la sezione MaxCord nelle impostazioni.
+echo Fatto! Riapri Discord e cerca la sezione Nadcord nelle impostazioni.
 pause
 exit /b 0
 

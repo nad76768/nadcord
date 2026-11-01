@@ -249,4 +249,4 @@ function VencordSettings() {
     );
 }
 
-export default wrapTab(VencordSettings, "MaxCord Settings");
+export default wrapTab(VencordSettings, "Nadcord Settings");

@@ -1,6 +1,6 @@
 /*
- * MaxCord, a fork of Vencord - a modification for Discord's desktop app
- * Copyright (c) 2026 Max Random
+ * Nadcord, a fork of Vencord - a modification for Discord's desktop app
+ * Copyright (c) 2026 Nad
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-// Primo plugin esclusivo di MaxCord.
+// Primo plugin esclusivo di Nadcord.
 // Usalo come modello: copia questa cartella, rinominala e cambia nome, descrizione e comandi.
 
 import { ApplicationCommandInputType, findOption, OptionalMessageOption, sendBotMessage } from "@api/Commands";
@@ -24,7 +24,7 @@ import { definePluginSettings } from "@api/Settings";
 import { sendMessage } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
 
-const MaxRandom = { name: "Max Random", id: 0n };
+const Nad = { name: "Nad", id: 0n };
 
 const settings = definePluginSettings({
     channelUrl: {
@@ -40,10 +40,10 @@ const settings = definePluginSettings({
 });
 
 export default definePlugin({
-    name: "MaxCordTools",
-    description: "Strumenti esclusivi di MaxCord: /canale per condividere il canale YouTube e /maxcord per le info sulla mod",
+    name: "NadcordTools",
+    description: "Strumenti esclusivi di Nadcord: /canale per condividere il canale YouTube e /nadcord per le info sulla mod",
     tags: ["Commands"],
-    authors: [MaxRandom],
+    authors: [Nad],
     settings,
 
     commands: [
@@ -60,12 +60,12 @@ export default definePlugin({
             }
         },
         {
-            name: "maxcord",
-            description: "Mostra info su MaxCord (visibile solo a te)",
+            name: "nadcord",
+            description: "Mostra info su Nadcord (visibile solo a te)",
             inputType: ApplicationCommandInputType.BUILT_IN,
             execute(_, { channel }) {
                 sendBotMessage(channel.id, {
-                    content: "**MaxCord** è attivo ✅\nClient mod personale di Max Random, basata su Vencord (GPL-3.0)."
+                    content: "**Nadcord** è attivo ✅\nClient mod personale di Nad, basata su Vencord (GPL-3.0)."
                 });
             }
         }

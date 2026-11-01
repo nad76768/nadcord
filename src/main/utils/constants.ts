@@ -21,8 +21,8 @@ import { join } from "path";
 
 export const DATA_DIR = process.env.VENCORD_USER_DATA_DIR ?? (
     process.env.DISCORD_USER_DATA_DIR
-        ? join(process.env.DISCORD_USER_DATA_DIR, "..", "MaxCordData")
-        : join(app.getPath("userData"), "..", "MaxCord")
+        ? join(process.env.DISCORD_USER_DATA_DIR, "..", "NadcordData")
+        : join(app.getPath("userData"), "..", "Nadcord")
 );
 export const SETTINGS_DIR = join(DATA_DIR, "settings");
 export const THEMES_DIR = join(DATA_DIR, "themes");
