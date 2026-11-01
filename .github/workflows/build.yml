@@ -1,4 +1,4 @@
-name: Build DevBuild
+name: Build Nadcord
 on:
     workflow_dispatch:
     push:
