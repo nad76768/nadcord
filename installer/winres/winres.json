@@ -1,0 +1,35 @@
+{
+  "RT_GROUP_ICON": {
+    "APP": {
+      "0000": [
+        "icon.png"
+      ]
+    }
+  },
+  "RT_MANIFEST": {
+    "#1": {
+      "0409": {
+        "description": "Installer di Nadcord, client mod per Discord",
+        "minimum-os": "win10",
+        "execution-level": "as invoker",
+        "dpi-awareness": "system"
+      }
+    }
+  },
+  "RT_VERSION": {
+    "#1": {
+      "0000": {
+        "info": {
+          "0409": {
+            "Comments": "Comments",
+            "CompanyName": "Nadcord",
+            "FileDescription": "Nadcord Installer",
+            "LegalCopyright": "Nadcord - basato su Vencord Installer © Vendicated and Contributors - GPL3.0",
+            "ProductName": "Nadcord Installer",
+            "ProductVersion": ""
+          }
+        }
+      }
+    }
+  }
+}
