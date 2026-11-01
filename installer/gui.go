@@ -1,4 +1,4 @@
-//go:build !cli
+//go:build !cli && !wails
 
 /*
  * SPDX-License-Identifier: GPL-3.0

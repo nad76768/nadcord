@@ -12,7 +12,7 @@
         "description": "An Installer for the Nadcord Discord Mod",
         "minimum-os": "win10",
         "execution-level": "as invoker",
-        "dpi-awareness": "system"
+        "dpi-awareness": "per monitor v2"
       }
     }
   },

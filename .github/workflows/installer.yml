@@ -1,5 +1,6 @@
 # Builds Nadcord Installer (Windows) and publishes it to the "installer" release.
-# Based on the Vencord Installer workflow.
+# The UI is plain HTML/CSS (installer/frontend) rendered with Wails + WebView2;
+# the install logic is the Go code from Vencord Installer.
 
 name: Build Installer
 on:
@@ -16,54 +17,43 @@ permissions:
 
 jobs:
   build-windows:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: installer
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
       - name: Install Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: "1.26"
-          cache: false
+          cache-dependency-path: installer/go.sum
 
-      - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: |
-            ~\AppData\Local\go-build
-            ~\go\pkg\mod
-          key: ${{ runner.os }}-go-${{ hashFiles('installer/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-
-      - name: Setup MSYS2
-        uses: msys2/setup-msys2@66cd2cce69caa17b53920067426061ca1de3a884 # v2.32.0
-
-      - name: Install Windows dependencies
-        shell: msys2 {0}
-        run: |
-          pacman -S --noconfirm git mingw-w64-x86_64-gcc mingw-w64-x86_64-SDL2 mingw-w64-x86_64-go make
-
-      - name: Install Go dependencies
-        shell: msys2 {0}
-        run: |
-          export GOROOT=/mingw64/lib/go
-          export GOPATH=/mingw64
-          go get -v
-          go install github.com/tc-hib/go-winres@d743268d7ea168077ddd443c4240562d4f5e8c3e  # v0.3.3
+      - name: Install go-winres
+        run: go install github.com/tc-hib/go-winres@d743268d7ea168077ddd443c4240562d4f5e8c3e # v0.3.3
 
       - name: Build
-        shell: msys2 {0}
+        env:
+          GOOS: windows
+          GOARCH: amd64
+          CGO_ENABLED: "0"
         run: |
-          git config --global --add safe.directory '*'
-          make GUI=1 VERSION=installer
+          set -o pipefail
+          mkdir -p build
+          go-winres make
+          HASH=$(git rev-parse --short HEAD)
+          LDFLAGS="-H windowsgui -s -w -X vencordinstaller/buildinfo.InstallerGitHash=$HASH -X vencordinstaller/buildinfo.InstallerTag=installer"
+          if ! (go mod tidy && go build -tags wails,desktop,production -ldflags "$LDFLAGS" -o build/NadcordInstaller.exe .) 2>&1 | tee build.log; then
+            # Surface compiler errors as annotations so they are readable from the API
+            grep -v "^go: downloading" build.log | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+            exit 1
+          fi
+          ls -la build
 
       - name: Publish release "installer"
-        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
