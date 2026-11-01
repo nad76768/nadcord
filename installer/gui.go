@@ -84,6 +84,7 @@ func main() {
 	} else {
 		win.SetIcon([]image.Image{icon})
 	}
+	win.SetBgColor(ThemeBg)
 
 	win.Run(loop)
 }
@@ -298,6 +299,9 @@ func renderFilesDirErr() g.Widget {
 
 func Tooltip(label string) g.Widget {
 	return g.Style().
+		SetColor(g.StyleColorText, ThemeText).
+		SetColor(g.StyleColorPopupBg, ThemeSurface).
+		SetColor(g.StyleColorBorder, NeonLimeDim).
 		SetStyle(g.StyleVarWindowPadding, 10, 8).
 		SetStyleFloat(g.StyleVarWindowRounding, 8).
 		To(
@@ -321,7 +325,7 @@ func ErrorModal(id, title, error, supportLink string) g.Widget {
 			g.PopupModal(id).
 				Flags(g.WindowFlagsNoTitleBar|g.WindowFlagsAlwaysAutoResize).
 				Layout(
-					g.Style().SetFontSize(35).To(g.Label(title)),
+					g.Style().SetFontSize(35).SetColor(g.StyleColorText, DangerText).To(g.Label(title)),
 					g.Dummy(0, 5),
 					g.Style().SetFontSize(25).To(
 						g.Row(
@@ -356,7 +360,7 @@ func RawInfoModal(id, title, description, extra string, isOpenAsar bool) g.Widge
 			g.PopupModal(id).
 				Flags(g.WindowFlagsNoTitleBar|Ternary(isDynamic, g.WindowFlagsAlwaysAutoResize, 0)).
 				Layout(
-					g.Style().SetFontSize(30).To(
+					g.Style().SetFontSize(30).SetColor(g.StyleColorText, NeonLime).To(
 						g.Label(title),
 					),
 					g.Dummy(0, 5),
@@ -509,8 +513,8 @@ func renderInstaller() g.Widget {
 	layout := g.Layout{
 		g.Style().SetFontSize(20).To(
 			renderErrorCard(
-				DiscordYellow,
-				color.Black,
+				ThemeSurfaceLime,
+				ThemeText,
 				"**github.com/nad76768/nadcord** is the only official place to get Nadcord. Any other site claiming to be us is malicious.\n"+
 					"If you downloaded from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.",
 				90,
@@ -519,8 +523,11 @@ func renderInstaller() g.Widget {
 
 		g.Dummy(0, 20),
 
-		g.Style().SetFontSize(30).To(
-			g.Label("Please select an install to patch"),
+		g.Style().SetFontSize(28).SetColor(g.StyleColorText, NeonLime).To(
+			g.Label("Select your Discord"),
+		),
+		g.Style().SetFontSize(18).SetColor(g.StyleColorText, ThemeTextDim).To(
+			g.Label("Fully close Discord before installing, then pick the install you want to patch."),
 		),
 		g.Dummy(0, 10),
 
@@ -560,7 +567,7 @@ func renderInstaller() g.Widget {
 
 				return g.Row(
 					g.RadioButton(text, radioIdx == i).OnChange(makeRadioOnChange(i)),
-					g.Style().SetColor(g.StyleColorText, color.RGBA{0xff, 0xff, 0xff, 0x80}).To(g.Label(" "+d.path)),
+					g.Style().SetColor(g.StyleColorText, ThemeTextDim).To(g.Label(" "+d.path)),
 				)
 			}),
 			&CondWidget{showCustomLocation, func() g.Widget {
@@ -624,9 +631,11 @@ func renderInstaller() g.Widget {
 		g.Style().SetFontSize(20).To(
 			g.Row(
 				g.Style().
-					SetColor(g.StyleColorButton, DiscordGreen).
-					SetColor(g.StyleColorButtonHovered, DiscordGreenHovered).
-					SetStyle(g.StyleVarFrameRounding, 8, 8).
+					SetColor(g.StyleColorButton, NeonLime).
+					SetColor(g.StyleColorButtonHovered, NeonLimeHovered).
+					SetColor(g.StyleColorButtonActive, NeonLimeActive).
+					SetColor(g.StyleColorText, ThemeBlack).
+					SetStyle(g.StyleVarFrameRounding, 12, 12).
 					SetDisabled(GithubError != nil).
 					To(
 						g.Button("Install").
@@ -635,9 +644,13 @@ func renderInstaller() g.Widget {
 						Tooltip("Install Nadcord into the selected Discord"),
 					),
 				g.Style().
-					SetColor(g.StyleColorButton, DiscordBlue).
-					SetColor(g.StyleColorButtonHovered, DiscordBlueHovered).
-					SetStyle(g.StyleVarFrameRounding, 8, 8).
+					SetColor(g.StyleColorButton, ThemeSurfaceLime).
+					SetColor(g.StyleColorButtonHovered, ThemeSurfaceHover).
+					SetColor(g.StyleColorButtonActive, ThemeSurface).
+					SetColor(g.StyleColorText, NeonLime).
+					SetColor(g.StyleColorBorder, NeonLime).
+					SetStyleFloat(g.StyleVarFrameBorderSize, 2).
+					SetStyle(g.StyleVarFrameRounding, 12, 12).
 					SetDisabled(GithubError != nil).
 					To(
 						g.Button("Reinstall / Repair").
@@ -655,9 +668,13 @@ func renderInstaller() g.Widget {
 						Tooltip("Reinstall & Update Nadcord"),
 					),
 				g.Style().
-					SetColor(g.StyleColorButton, DiscordRed).
-					SetColor(g.StyleColorButtonHovered, DiscordRedHovered).
-					SetStyle(g.StyleVarFrameRounding, 8, 8).
+					SetColor(g.StyleColorButton, DangerBg).
+					SetColor(g.StyleColorButtonHovered, DangerBgHover).
+					SetColor(g.StyleColorButtonActive, DangerBg).
+					SetColor(g.StyleColorText, DangerText).
+					SetColor(g.StyleColorBorder, DangerText).
+					SetStyleFloat(g.StyleVarFrameBorderSize, 1).
+					SetStyle(g.StyleVarFrameRounding, 12, 12).
 					To(
 						g.Button("Uninstall").
 							OnClick(handleUnpatch).
@@ -665,15 +682,28 @@ func renderInstaller() g.Widget {
 						Tooltip("Remove Nadcord from the selected Discord"),
 					),
 				g.Style().
-					SetColor(g.StyleColorButton, Ternary(isOpenAsar, DiscordRed, DiscordGreen)).
-					SetColor(g.StyleColorButtonHovered, Ternary(isOpenAsar, DiscordRedHovered, DiscordGreenHovered)).
-					SetStyle(g.StyleVarFrameRounding, 8, 8).
+					SetColor(g.StyleColorButton, ThemeSurface).
+					SetColor(g.StyleColorButtonHovered, ThemeSurfaceHover).
+					SetColor(g.StyleColorButtonActive, ThemeSurface).
+					SetColor(g.StyleColorText, ThemeTextDim).
+					SetColor(g.StyleColorBorder, NeonLimeFaint).
+					SetStyleFloat(g.StyleVarFrameBorderSize, 1).
+					SetStyle(g.StyleVarFrameRounding, 12, 12).
 					To(
 						g.Button(Ternary(isOpenAsar, "Uninstall OpenAsar", Ternary(currentDiscord != nil, "Install OpenAsar", "(Un-)Install OpenAsar"))).
 							OnClick(handleOpenAsar).
 							Size((w-40)/4, 50),
 						Tooltip("Manage OpenAsar"),
 					),
+			),
+		),
+
+		g.Dummy(0, 30),
+		g.Style().SetColor(g.StyleColorSeparator, NeonLimeFaint).To(g.Separator()),
+		g.Dummy(0, 8),
+		g.Align(g.AlignCenter).To(
+			g.Style().SetFontSize(16).SetColor(g.StyleColorText, ThemeTextDim).To(
+				g.Label("Nadcord  •  based on Vencord Installer  •  GPL-3.0"),
 			),
 		),
 
@@ -707,7 +737,7 @@ func renderErrorCard(bgColor color.Color, textColor color.Color, message string,
 		SetColor(g.StyleColorChildBg, bgColor).
 		SetStyleFloat(g.StyleVarAlpha, 0.9).
 		SetStyle(g.StyleVarWindowPadding, 10, 10).
-		SetStyleFloat(g.StyleVarChildRounding, 5).
+		SetStyleFloat(g.StyleVarChildRounding, 12).
 		To(
 			g.Child().
 				Size(g.Auto, height).
@@ -723,6 +753,7 @@ func renderErrorCard(bgColor color.Color, textColor color.Color, message string,
 
 func loop() {
 	g.PushWindowPadding(48, 48)
+	g.PushColorWindowBg(ThemeBg)
 
 	g.SingleWindow().
 		RegisterKeyboardShortcuts(
@@ -737,28 +768,65 @@ func loop() {
 				}
 			}},
 		).
-		Layout(
-			g.Align(g.AlignCenter).To(
-				g.Style().SetFontSize(40).To(
-					g.Label("Nadcord Installer"),
+		Layout(g.Style().
+			SetColor(g.StyleColorText, ThemeText).
+			SetColor(g.StyleColorTextDisabled, ThemeTextDim).
+			SetColor(g.StyleColorPopupBg, ThemeSurface).
+			SetColor(g.StyleColorChildBg, ThemeSurface).
+			SetColor(g.StyleColorBorder, NeonLimeDim).
+			SetColor(g.StyleColorFrameBg, ThemeSurface).
+			SetColor(g.StyleColorFrameBgHovered, ThemeSurfaceHover).
+			SetColor(g.StyleColorFrameBgActive, ThemeSurfaceHover).
+			SetColor(g.StyleColorCheckMark, NeonLime).
+			SetColor(g.StyleColorButton, ThemeSurfaceLime).
+			SetColor(g.StyleColorButtonHovered, ThemeSurfaceHover).
+			SetColor(g.StyleColorButtonActive, NeonLimeActive).
+			SetColor(g.StyleColorHeader, NeonLimeFaint).
+			SetColor(g.StyleColorHeaderHovered, NeonLimeDim).
+			SetColor(g.StyleColorHeaderActive, NeonLimeDim).
+			SetColor(g.StyleColorTextSelectedBg, NeonLimeDim).
+			SetColor(g.StyleColorScrollbarBg, ThemeBg).
+			SetColor(g.StyleColorScrollbarGrab, ThemeSurfaceHover).
+			SetColor(g.StyleColorScrollbarGrabHovered, NeonLimeDim).
+			SetColor(g.StyleColorScrollbarGrabActive, NeonLime).
+			SetColor(g.StyleColorSeparator, NeonLimeDim).
+			SetColor(g.StyleColorModalWindowDimBg, color.RGBA{0, 0, 0, 0xb0}).
+			SetStyleFloat(g.StyleVarFrameRounding, 10).
+			SetStyleFloat(g.StyleVarPopupRounding, 12).
+			SetStyleFloat(g.StyleVarPopupBorderSize, 1).
+			SetStyleFloat(g.StyleVarScrollbarRounding, 8).
+			SetStyleFloat(g.StyleVarGrabRounding, 8).
+			SetStyle(g.StyleVarFramePadding, 10, 8).
+			To(
+				g.Align(g.AlignCenter).To(
+					g.Style().SetFontSize(56).SetColor(g.StyleColorText, NeonLime).To(
+						g.Label("NADCORD"),
+					),
 				),
-			),
-			g.Dummy(0, 40),
+				g.Align(g.AlignCenter).To(
+					g.Style().SetFontSize(20).SetColor(g.StyleColorText, ThemeTextDim).To(
+						g.Label("I N S T A L L E R"),
+					),
+				),
+				g.Dummy(0, 14),
+				g.Style().SetColor(g.StyleColorSeparator, NeonLime).To(g.Separator()),
+				g.Dummy(0, 30),
 
-			&CondWidget{
-				GithubError != nil,
-				func() g.Widget {
-					return g.Style().SetFontSize(20).To(renderErrorCard(DiscordRed, color.White, "Failed to fetch Info from GitHub. Check your connection and try again.", 40))
+				&CondWidget{
+					GithubError != nil,
+					func() g.Widget {
+						return g.Style().SetFontSize(20).To(renderErrorCard(DiscordRed, color.White, "Failed to fetch Info from GitHub. Check your connection and try again.", 40))
+					},
+					nil,
 				},
-				nil,
-			},
 
-			&CondWidget{
-				predicate:  FilesDirErr != nil,
-				ifWidget:   renderFilesDirErr,
-				elseWidget: renderInstaller,
-			},
-		)
+				&CondWidget{
+					predicate:  FilesDirErr != nil,
+					ifWidget:   renderFilesDirErr,
+					elseWidget: renderInstaller,
+				},
+			))
 
+	g.PopStyleColor()
 	g.PopStyle()
 }
