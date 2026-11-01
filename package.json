@@ -1,18 +1,18 @@
 {
-    "name": "vencord",
+    "name": "maxcord",
     "private": "true",
     "version": "1.15.15",
-    "description": "The cutest Discord client mod",
-    "homepage": "https://github.com/Vendicated/Vencord#readme",
+    "description": "MaxCord - client mod per Discord basata su Vencord",
+    "homepage": "https://github.com/TUO-UTENTE/MaxCord#readme",
     "bugs": {
-        "url": "https://github.com/Vendicated/Vencord/issues"
+        "url": "https://github.com/TUO-UTENTE/MaxCord/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Vendicated/Vencord.git"
+        "url": "git+https://github.com/TUO-UTENTE/MaxCord.git"
     },
     "license": "GPL-3.0-or-later",
-    "author": "Vendicated",
+    "author": "Max Random (basato su Vencord di Vendicated e collaboratori)",
     "scripts": {
         "build": "node --require=./scripts/suppressExperimentalWarnings.js scripts/build/build.mjs",
         "buildStandalone": "pnpm build --standalone",
