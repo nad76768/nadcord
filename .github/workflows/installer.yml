@@ -1,5 +1,5 @@
-# Compila Nadcord Installer (Windows) e lo pubblica nella release "installer".
-# Basato sul workflow di Vencord Installer.
+# Builds Nadcord Installer (Windows) and publishes it to the "installer" release.
+# Based on the Vencord Installer workflow.
 
 name: Build Installer
 on:
@@ -67,5 +67,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release view installer >/dev/null 2>&1 || gh release create installer --title "Nadcord Installer" --notes "Scarica NadcordInstaller.exe, avvialo, scegli Discord e premi Installa." --latest=false
+          gh release view installer >/dev/null 2>&1 || gh release create installer --title "Nadcord Installer" --notes "Download NadcordInstaller.exe, run it, pick your Discord and press Install." --latest=false
+          gh release edit installer --title "Nadcord Installer" --notes "Download NadcordInstaller.exe, run it, pick your Discord and press Install." --latest=false
           gh release upload installer --clobber build/NadcordInstaller.exe

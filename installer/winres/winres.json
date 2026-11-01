@@ -9,7 +9,7 @@
   "RT_MANIFEST": {
     "#1": {
       "0409": {
-        "description": "Installer di Nadcord, client mod per Discord",
+        "description": "An Installer for the Nadcord Discord Mod",
         "minimum-os": "win10",
         "execution-level": "as invoker",
         "dpi-awareness": "system"
@@ -24,7 +24,7 @@
             "Comments": "Comments",
             "CompanyName": "Nadcord",
             "FileDescription": "Nadcord Installer",
-            "LegalCopyright": "Nadcord - basato su Vencord Installer © Vendicated and Contributors - GPL3.0",
+            "LegalCopyright": "Nadcord - based on Vencord Installer © Vendicated and Contributors - GPL3.0",
             "ProductName": "Nadcord Installer",
             "ProductVersion": ""
           }

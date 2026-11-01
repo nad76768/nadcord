@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-// Primo plugin esclusivo di Nadcord.
-// Usalo come modello: copia questa cartella, rinominala e cambia nome, descrizione e comandi.
+// First Nadcord-exclusive plugin.
+// Use it as a template: copy this folder, rename it and change the name, description and commands.
 
 import { ApplicationCommandInputType, findOption, OptionalMessageOption, sendBotMessage } from "@api/Commands";
 import { definePluginSettings } from "@api/Settings";
@@ -16,27 +16,27 @@ import definePlugin, { OptionType } from "@utils/types";
 const settings = definePluginSettings({
     channelUrl: {
         type: OptionType.STRING,
-        description: "Link del canale YouTube condiviso dal comando /canale",
+        description: "YouTube channel link shared by the /channel command",
         default: "https://www.youtube.com/@MaxRandom"
     },
     defaultMessage: {
         type: OptionType.STRING,
-        description: "Messaggio usato da /canale quando non ne scrivi uno",
-        default: "Venite a vedere i miei video! 🎬"
+        description: "Message used by /channel when you don't write one",
+        default: "Come check out my videos! 🎬"
     }
 });
 
 export default definePlugin({
     name: "NadcordTools",
-    description: "Strumenti esclusivi di Nadcord: /canale per condividere il canale YouTube e /nadcord per le info sulla mod",
+    description: "Nadcord-exclusive tools: /channel to share your YouTube channel and /nadcord for info about the mod",
     tags: ["Commands"],
     authors: [Devs.Nad],
     settings,
 
     commands: [
         {
-            name: "canale",
-            description: "Condividi in chat il link del canale YouTube",
+            name: "channel",
+            description: "Share your YouTube channel link in chat",
             inputType: ApplicationCommandInputType.BUILT_IN,
             options: [OptionalMessageOption],
             execute(options, { channel }) {
@@ -48,11 +48,11 @@ export default definePlugin({
         },
         {
             name: "nadcord",
-            description: "Mostra info su Nadcord (visibile solo a te)",
+            description: "Show info about Nadcord (only visible to you)",
             inputType: ApplicationCommandInputType.BUILT_IN,
             execute(_, { channel }) {
                 sendBotMessage(channel.id, {
-                    content: "**Nadcord** è attivo ✅\nClient mod personale di Nad, basata su Vencord (GPL-3.0)."
+                    content: "**Nadcord** is active ✅\nNad's personal client mod, based on Vencord (GPL-3.0)."
                 });
             }
         }

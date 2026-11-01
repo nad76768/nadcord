@@ -43,7 +43,7 @@ func init() {
 		}
 		BaseDir = path.Join(configDir, "Nadcord")
 	}
-	// Discord carica il patcher con un percorso assoluto: mai uno relativo
+	// Discord loads the patcher by absolute path, so never store a relative one
 	if abs, err := filepath.Abs(BaseDir); err == nil {
 		BaseDir = abs
 	}

@@ -1,42 +1,46 @@
 # Nadcord
 
-Client mod personale per Discord di **Nad**, basata su [Vencord](https://github.com/Vendicated/Vencord).
+Nad's personal Discord client mod, based on [Vencord](https://github.com/Vendicated/Vencord).
 
-Include tutti i plugin e le funzioni di Vencord (oltre 150 plugin, temi, QuickCSS, updater, sincronizzazione impostazioni), più i plugin esclusivi di Nadcord.
+Includes every Vencord plugin and feature (150+ plugins, themes, QuickCSS, updater, settings sync), plus Nadcord-exclusive plugins.
 
-## Plugin esclusivi
+## Exclusive plugins
 
-| Plugin | Cosa fa |
+| Plugin | What it does |
 | --- | --- |
-| `NadcordTools` | `/canale` condivide il link del canale YouTube, `/nadcord` mostra le info sulla mod |
+| `NadcordTools` | `/channel` shares your YouTube channel link, `/nadcord` shows info about the mod |
 
-I plugin esclusivi stanno in `src/plugins/` come quelli di Vencord. Per crearne uno nuovo, copia la cartella `src/plugins/nadcordTools`, rinominala e modificala.
+Exclusive plugins live in `src/plugins/` alongside the Vencord ones. To create a new one, copy `src/plugins/nadcordTools`, rename it and edit it.
 
-## Installazione (Windows)
+## Installing (Windows)
 
-1. Scarica **[NadcordInstaller.exe](https://github.com/nad76768/nadcord/releases/download/installer/NadcordInstaller.exe)**.
-2. Chiudi Discord del tutto (anche dall'icona vicino all'orologio).
-3. Apri l'installer, scegli il tuo Discord e premi **Installa**.
-4. Riapri Discord: nelle impostazioni trovi la sezione **Nadcord**.
+1. Download **[NadcordInstaller.exe](https://github.com/nad76768/nadcord/releases/download/installer/NadcordInstaller.exe)**.
+2. Fully close Discord (including from the system tray).
+3. Open the installer, pick your Discord and press **Install**.
+4. Reopen Discord: you'll find the **Nadcord** section in User Settings.
 
-Dallo stesso installer puoi anche **Reinstallare / Riparare** o **Disinstallare** Nadcord.
+The same installer can also **Reinstall / Repair** or **Uninstall** Nadcord.
 
-Il codice dell'installer si trova nella cartella `installer/`.
+> Windows may show "Windows protected your PC" because the installer is not code-signed. Click **More info** → **Run anyway**.
 
-### Installazione da sviluppatore
+The installer's source code is in the `installer/` folder.
 
-Requisiti: [Node.js](https://nodejs.org) 22+ e [Git](https://git-scm.com). Fai doppio clic su `installa-nadcord.bat` (compila dal codice locale).
-Per disinstallare: `pnpm uninject`.
+### Developer install
 
-## Aggiornamenti
+Requirements: [Node.js](https://nodejs.org) 22+ and [Git](https://git-scm.com).
+Double-click `install-nadcord.bat` to build and inject Nadcord from your local source.
+To uninstall: `pnpm uninject`.
 
-- **Dal tuo repository:** l'updater integrato controlla il repository GitHub da cui hai compilato.
-- **Dal Vencord originale:** `git pull upstream main`, poi ricompila con `pnpm build`.
+## Updates
 
-## Licenza e crediti
+- **Nadcord:** every push to `main` is built automatically and published to the `devbuild` release. Use the built-in updater or **Reinstall / Repair** in the installer.
+- **Installer:** changes in `installer/` are built automatically and published to the `installer` release (same download link).
+- **Upstream Vencord:** `git pull upstream main`, then push.
 
-Nadcord è un fork di Vencord © Vendicated e collaboratori, distribuito sotto licenza **GPL-3.0-or-later** (vedi `LICENSE`).
-Se distribuisci Nadcord ad altri, il codice sorgente deve restare pubblico con la stessa licenza.
-Il README originale di Vencord si trova in `README.vencord.md`.
+## License and credits
 
-> Le client mod violano i Termini di Servizio di Discord. Usala consapevolmente.
+Nadcord is a fork of Vencord © Vendicated and contributors, licensed under **GPL-3.0-or-later** (see `LICENSE`).
+If you distribute Nadcord, its source code must remain public under the same license.
+The original Vencord README is in `README.vencord.md`.
+
+> Client mods violate Discord's Terms of Service. Use at your own risk.

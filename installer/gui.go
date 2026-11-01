@@ -126,7 +126,7 @@ func InstallLatestBuilds() (err error) {
 
 	err = installLatestBuilds()
 	if err != nil {
-		ShowErrorModal("Impossibile scaricare l'ultima versione di Nadcord da GitHub", err.Error(), "https://github.com/nad76768/nadcord/issues")
+		ShowErrorModal("Failed to install the latest Nadcord builds from GitHub", err.Error(), "https://github.com/nad76768/nadcord/issues")
 	}
 	return
 }
@@ -179,16 +179,16 @@ func handleErr(di *DiscordInstall, err error, action string) {
 	if errors.Is(err, os.ErrPermission) {
 		switch runtime.GOOS {
 		case "windows":
-			err = errors.New("Permesso negato. Assicurati che Discord sia chiuso del tutto (anche dall'icona vicino all'orologio)!")
+			err = errors.New("Permission denied. Make sure your Discord is fully closed (from the tray)!")
 		case "darwin":
 			HandleInsufficientPermissions()
 			return
 		default:
-			err = errors.New("Permesso negato. Prova ad avviarmi come amministratore.")
+			err = errors.New("Permission denied. Maybe try running me as Administrator?")
 		}
 	}
 
-	ShowErrorModal("Operazione non riuscita ("+action+").", err.Error(), "https://github.com/nad76768/nadcord/issues")
+	ShowErrorModal("Failed to "+action+" this Install.", err.Error(), "https://github.com/nad76768/nadcord/issues")
 }
 
 func HandleScuffedInstall() {
@@ -430,19 +430,19 @@ func UpdateModal() g.Widget {
 				Layout(
 					g.Align(g.AlignCenter).To(
 						g.Style().SetFontSize(30).To(
-							g.Label("È disponibile una nuova versione dell'installer!"),
+							g.Label("Your Installer is outdated!"),
 						),
 						g.Style().SetFontSize(20).To(
 							g.Label(
-								"Vuoi aggiornarlo adesso?\n\n"+
-									"Premendo Aggiorna ora, il nuovo installer verrà scaricato automaticamente.\n"+
-									"Per qualche secondo potrebbe sembrare bloccato: aspetta!\n"+
-									"Finito l'aggiornamento, l'installer si riaprirà da solo.\n\n"+
+								"Would you like to update now?\n\n"+
+									"Once you press Update Now, the new installer will automatically be downloaded.\n"+
+									"The installer will temporarily seem unresponsive. Just wait!\n"+
+									"Once the update is done, the Installer will automatically reopen.\n\n"+
 									"On MacOs, Auto updates are not supported, so it will instead open in browser.",
 							),
 						),
 						g.Row(
-							g.Button("Aggiorna ora").
+							g.Button("Update Now").
 								OnClick(func() {
 									if runtime.GOOS == "darwin" {
 										g.CloseCurrentPopup()
@@ -462,7 +462,7 @@ func UpdateModal() g.Widget {
 									}
 								}).
 								Size(100, 30),
-							g.Button("Più tardi").
+							g.Button("Later").
 								OnClick(func() {
 									g.CloseCurrentPopup()
 								}).
@@ -511,8 +511,8 @@ func renderInstaller() g.Widget {
 			renderErrorCard(
 				DiscordYellow,
 				color.Black,
-				"Nadcord si scarica solo da **github.com/nad76768**. Qualsiasi altro sito che dice di distribuirlo è falso.\n"+
-					"Se l'hai scaricato da un'altra parte, disinstalla tutto, fai una scansione antivirus e cambia la password di Discord.",
+				"**github.com/nad76768/nadcord** is the only official place to get Nadcord. Any other site claiming to be us is malicious.\n"+
+					"If you downloaded from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.",
 				90,
 			),
 		),
@@ -520,12 +520,12 @@ func renderInstaller() g.Widget {
 		g.Dummy(0, 20),
 
 		g.Style().SetFontSize(30).To(
-			g.Label("Scegli su quale Discord installare Nadcord"),
+			g.Label("Please select an install to patch"),
 		),
 		g.Dummy(0, 10),
 
 		&CondWidget{len(discords) == 0, func() g.Widget {
-			s := "Nessun Discord trovato. Prima devi installare Discord."
+			s := "No Discord installs found. You first need to install Discord."
 			if runtime.GOOS == "linux" {
 				s += " snap is not supported."
 			}
@@ -534,7 +534,7 @@ func renderInstaller() g.Widget {
 				return g.Column(
 					g.Style().SetFontSize(25).To(g.Label(s)),
 					g.Dummy(0, 10),
-					g.Checkbox("Utente esperto: ho Discord installato in un'altra cartella", &showCustomLocation),
+					g.Checkbox("I am an advanced user and have Discord installed at a different location", &showCustomLocation),
 				)
 			}, nil}
 		}, nil},
@@ -555,7 +555,7 @@ func renderInstaller() g.Widget {
 				}
 
 				if d.isPatched {
-					text += " (Nadcord installato)"
+					text += " (Nadcord Installed)"
 				}
 
 				return g.Row(
@@ -564,7 +564,7 @@ func renderInstaller() g.Widget {
 				)
 			}),
 			&CondWidget{showCustomLocation, func() g.Widget {
-				return g.RadioButton("Cartella personalizzata", radioIdx == customChoiceIdx).OnChange(makeRadioOnChange(customChoiceIdx))
+				return g.RadioButton("Custom Install Location", radioIdx == customChoiceIdx).OnChange(makeRadioOnChange(customChoiceIdx))
 			}, nil},
 		),
 
@@ -575,7 +575,7 @@ func renderInstaller() g.Widget {
 					SetStyle(g.StyleVarFramePadding, 16, 16).
 					SetFontSize(20).
 					To(
-						g.InputText(&customDir).Hint("La cartella di Discord").
+						g.InputText(&customDir).Hint("The custom location").
 							Size(w-16).
 							Flags(g.InputTextFlagsCallbackCompletion).
 							OnChange(onCustomInputChanged).
@@ -629,10 +629,10 @@ func renderInstaller() g.Widget {
 					SetStyle(g.StyleVarFrameRounding, 8, 8).
 					SetDisabled(GithubError != nil).
 					To(
-						g.Button("Installa").
+						g.Button("Install").
 							OnClick(handlePatch).
 							Size((w-40)/4, 50),
-						Tooltip("Installa Nadcord nel Discord selezionato"),
+						Tooltip("Install Nadcord into the selected Discord"),
 					),
 				g.Style().
 					SetColor(g.StyleColorButton, DiscordBlue).
@@ -640,7 +640,7 @@ func renderInstaller() g.Widget {
 					SetStyle(g.StyleVarFrameRounding, 8, 8).
 					SetDisabled(GithubError != nil).
 					To(
-						g.Button("Reinstalla / Ripara").
+						g.Button("Reinstall / Repair").
 							OnClick(func() {
 								if IsDevInstall {
 									handlePatch()
@@ -652,17 +652,17 @@ func renderInstaller() g.Widget {
 								}
 							}).
 							Size((w-40)/4, 50),
-						Tooltip("Reinstalla e aggiorna Nadcord"),
+						Tooltip("Reinstall & Update Nadcord"),
 					),
 				g.Style().
 					SetColor(g.StyleColorButton, DiscordRed).
 					SetColor(g.StyleColorButtonHovered, DiscordRedHovered).
 					SetStyle(g.StyleVarFrameRounding, 8, 8).
 					To(
-						g.Button("Disinstalla").
+						g.Button("Uninstall").
 							OnClick(handleUnpatch).
 							Size((w-40)/4, 50),
-						Tooltip("Rimuovi Nadcord dal Discord selezionato"),
+						Tooltip("Remove Nadcord from the selected Discord"),
 					),
 				g.Style().
 					SetColor(g.StyleColorButton, Ternary(isOpenAsar, DiscordRed, DiscordGreen)).
@@ -677,8 +677,8 @@ func renderInstaller() g.Widget {
 			),
 		),
 
-		InfoModal("#patched", "Installato!", "Nadcord è stato installato! Riavvia Discord."),
-		InfoModal("#unpatched", "Disinstallato", "Nadcord è stato rimosso."),
+		InfoModal("#patched", "Installed!", "Nadcord was successfully installed! Restart Discord."),
+		InfoModal("#unpatched", "Uninstalled", "Nadcord has been uninstalled!"),
 		InfoModal("#scuffed-install", "Hold On!", "You have a broken Discord Install.\n"+
 			"Sometimes Discord decides to install to the wrong location for some reason!\n"+
 			"You need to fix this before patching, otherwise Nadcord will likely not work.\n\n"+
@@ -748,7 +748,7 @@ func loop() {
 			&CondWidget{
 				GithubError != nil,
 				func() g.Widget {
-					return g.Style().SetFontSize(20).To(renderErrorCard(DiscordRed, color.White, "Impossibile contattare GitHub. Controlla la connessione e riprova.", 40))
+					return g.Style().SetFontSize(20).To(renderErrorCard(DiscordRed, color.White, "Failed to fetch Info from GitHub. Check your connection and try again.", 40))
 				},
 				nil,
 			},
