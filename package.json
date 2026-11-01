@@ -3,13 +3,13 @@
     "private": "true",
     "version": "1.15.15",
     "description": "Nadcord - client mod per Discord basata su Vencord",
-    "homepage": "https://github.com/TUO-UTENTE/Nadcord#readme",
+    "homepage": "https://github.com/nad76768/nadcord#readme",
     "bugs": {
-        "url": "https://github.com/TUO-UTENTE/Nadcord/issues"
+        "url": "https://github.com/nad76768/nadcord/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/TUO-UTENTE/Nadcord.git"
+        "url": "git+https://github.com/nad76768/nadcord.git"
     },
     "license": "GPL-3.0-or-later",
     "author": "Nad (basato su Vencord di Vendicated e collaboratori)",
