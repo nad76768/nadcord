@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	path "path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -31,9 +32,20 @@ func init() {
 		Log.Debug("Using UserConfig")
 		configDir := os.Getenv("XDG_CONFIG_HOME")
 		if configDir == "" {
-			configDir = filepath.Join(os.Getenv("HOME"), ".config")
+			if runtime.GOOS == "linux" {
+				configDir = filepath.Join(os.Getenv("HOME"), ".config")
+			} else if dir, err := os.UserConfigDir(); err == nil {
+				// Windows: %APPDATA%, macOS: ~/Library/Application Support
+				configDir = dir
+			} else {
+				configDir = filepath.Join(os.Getenv("HOME"), ".config")
+			}
 		}
 		BaseDir = path.Join(configDir, "Nadcord")
+	}
+	// Discord carica il patcher con un percorso assoluto: mai uno relativo
+	if abs, err := filepath.Abs(BaseDir); err == nil {
+		BaseDir = abs
 	}
 	FilesDir = path.Join(BaseDir, "dist")
 	if !ExistsFile(FilesDir) {
