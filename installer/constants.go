@@ -7,47 +7,13 @@
 package main
 
 import (
-	"image/color"
 	"vencordinstaller/buildinfo"
 )
 
 const ReleaseUrl = "https://api.github.com/repos/nad76768/nadcord/releases/tags/devbuild"
 const ReleaseUrlFallback = "https://api.github.com/repos/nad76768/nadcord/releases/tags/devbuild"
-const InstallerReleaseUrl = "https://api.github.com/repos/nad76768/nadcord/releases/tags/installer"
-const InstallerReleaseUrlFallback = "https://api.github.com/repos/nad76768/nadcord/releases/tags/installer"
 
 var UserAgent = "NadcordInstaller/" + buildinfo.InstallerGitHash + " (https://github.com/nad76768/nadcord)"
-
-// Nadcord theme: dark background with neon lime accents
-var (
-	NeonLime        = color.RGBA{0xA6, 0xFF, 0x00, 0xff}
-	NeonLimeHovered = color.RGBA{0xC6, 0xFF, 0x4D, 0xff}
-	NeonLimeActive  = color.RGBA{0x86, 0xD4, 0x00, 0xff}
-	NeonLimeDim     = color.RGBA{0xA6, 0xFF, 0x00, 0x55}
-	NeonLimeFaint   = color.RGBA{0xA6, 0xFF, 0x00, 0x22}
-
-	ThemeBg           = color.RGBA{0x08, 0x0B, 0x06, 0xff}
-	ThemeSurface      = color.RGBA{0x12, 0x18, 0x0D, 0xff}
-	ThemeSurfaceHover = color.RGBA{0x1C, 0x26, 0x13, 0xff}
-	ThemeSurfaceLime  = color.RGBA{0x17, 0x22, 0x08, 0xff}
-	ThemeText         = color.RGBA{0xEC, 0xFF, 0xDE, 0xff}
-	ThemeTextDim      = color.RGBA{0x86, 0x96, 0x7C, 0xff}
-	ThemeBlack        = color.RGBA{0x05, 0x07, 0x03, 0xff}
-
-	DangerBg      = color.RGBA{0x2A, 0x0F, 0x12, 0xff}
-	DangerBgHover = color.RGBA{0x3F, 0x14, 0x19, 0xff}
-	DangerText    = color.RGBA{0xFF, 0x6B, 0x78, 0xff}
-)
-
-var (
-	DiscordGreen        = color.RGBA{0, 133, 69, 0xff}
-	DiscordGreenHovered = color.RGBA{0, 108, 55, 0xff}
-	DiscordRed          = color.RGBA{210, 45, 57, 0xff}
-	DiscordRedHovered   = color.RGBA{169, 35, 46, 0xff}
-	DiscordBlue         = color.RGBA{0x2E, 0x45, 0x0B, 0xff}
-	DiscordBlueHovered  = color.RGBA{0x3D, 0x5C, 0x0E, 0xff}
-	DiscordYellow       = color.RGBA{0xfe, 0xe7, 0x5c, 0xff}
-)
 
 var LinuxDiscordNames = []string{
 	"Discord",

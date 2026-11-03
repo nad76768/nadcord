@@ -7,7 +7,6 @@ on:
         paths:
             - .github/workflows/build.yml
             - src/**
-            - browser/**
             - scripts/build/**
             - package.json
             - pnpm-lock.yaml
@@ -36,9 +35,6 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: Build web
-              run: pnpm buildWebStandalone
-
             - name: Build
               run: pnpm build --standalone
 
@@ -47,7 +43,7 @@ jobs:
 
             - name: Clean up obsolete files
               run: |
-                  rm -rf dist/*-unpacked dist/vendor Vencord.user.css vencordDesktopRenderer.css vencordDesktopRenderer.css.map
+                  rm -rf dist/*-unpacked dist/vendor
 
             - name: Get some values needed for the release
               id: release_values

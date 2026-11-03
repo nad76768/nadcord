@@ -1,5 +1,3 @@
-//go:build wails
-
 /*
  * SPDX-License-Identifier: GPL-3.0
  * Nadcord Installer - web based UI (Wails)

@@ -46,7 +46,7 @@ jobs:
           go-winres make
           HASH=$(git rev-parse --short HEAD)
           LDFLAGS="-H windowsgui -s -w -X vencordinstaller/buildinfo.InstallerGitHash=$HASH -X vencordinstaller/buildinfo.InstallerTag=installer"
-          if ! (go mod tidy && go build -tags wails,desktop,production -ldflags "$LDFLAGS" -o build/NadcordInstaller.exe .) 2>&1 | tee build.log; then
+          if ! (go mod tidy && go build -tags desktop,production -ldflags "$LDFLAGS" -o build/NadcordInstaller.exe .) 2>&1 | tee build.log; then
             # Surface compiler errors as annotations so they are readable from the API
             grep -v "^go: downloading" build.log | head -20 | while IFS= read -r line; do echo "::error::$line"; done
             exit 1

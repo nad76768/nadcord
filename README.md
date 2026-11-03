@@ -41,6 +41,5 @@ To uninstall: `pnpm uninject`.
 
 Nadcord is a fork of Vencord © Vendicated and contributors, licensed under **GPL-3.0-or-later** (see `LICENSE`).
 If you distribute Nadcord, its source code must remain public under the same license.
-The original Vencord README is in `README.vencord.md`.
 
 > Client mods violate Discord's Terms of Service. Use at your own risk.

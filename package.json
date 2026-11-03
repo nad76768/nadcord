@@ -16,13 +16,8 @@
     "scripts": {
         "build": "node --require=./scripts/suppressExperimentalWarnings.js scripts/build/build.mjs",
         "buildStandalone": "pnpm build --standalone",
-        "buildWeb": "node --require=./scripts/suppressExperimentalWarnings.js scripts/build/buildWeb.mjs",
-        "buildWebStandalone": "pnpm buildWeb --standalone",
-        "buildReporter": "pnpm buildWebStandalone --reporter --skip-extension",
-        "buildReporterDesktop": "pnpm build --reporter",
         "watch": "pnpm build --watch",
         "dev": "pnpm watch",
-        "watchWeb": "pnpm buildWeb --watch",
         "generatePluginJson": "tsx scripts/generatePluginList.ts",
         "generateTypes": "tspc --emitDeclarationOnly --declaration --outDir packages/vencord-types --allowJs false",
         "inject": "node scripts/runInstaller.mjs -- --install",
@@ -30,7 +25,7 @@
         "lint": "eslint",
         "lint-styles": "stylelint \"src/**/*.css\" --ignore-pattern src/userplugins",
         "lint:fix": "pnpm lint --fix",
-        "test": "pnpm test:ts && pnpm buildStandalone && pnpm buildWebStandalone && pnpm lint && pnpm lint-styles && pnpm generatePluginJson",
+        "test": "pnpm test:ts && pnpm buildStandalone && pnpm lint && pnpm lint-styles && pnpm generatePluginJson",
         "test:ts": "tsc --noEmit",
         "bump": "./scripts/bump.sh"
     },
