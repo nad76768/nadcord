@@ -53,6 +53,10 @@ jobs:
             - name: Upload DevBuild as release
               run: |
                   gh release view devbuild >/dev/null 2>&1 || gh release create devbuild --title "DevBuild $RELEASE_TAG" --notes "Automatic Nadcord build" --latest
+                  # remove files from older builds that are no longer produced
+                  for asset in $(gh release view devbuild --json assets --jq '.assets[].name'); do
+                      [ -e "dist/$asset" ] || gh release delete-asset devbuild "$asset" --yes
+                  done
                   gh release upload devbuild --clobber dist/*
                   gh release edit devbuild --title "DevBuild $RELEASE_TAG" --latest
               env:
